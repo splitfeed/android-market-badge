@@ -4,7 +4,7 @@ Plugin Name: Android Market Badges
 Plugin URI:
 Feed URI:
 Description:
-Version: 0.4
+Version: 0.5
 Author: Niklas Nilsson
 Author URI: http://www.splitfeed.net
 */
