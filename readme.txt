@@ -15,6 +15,10 @@ TBD
 
 TBD
 
+== Upgrade Notice ==
+
+TBD
+
 == Frequently Asked Questions ==
 
 = Why so empty? =
@@ -31,7 +35,6 @@ TBD
 * Renamed default badge to "default"
 * Cleaned up the code a little bit
 * Better error handling when lacking write permissions to the cache folder
-* 
 
 = 0.5 =
 * First version uploaded to WP Plugin Site
