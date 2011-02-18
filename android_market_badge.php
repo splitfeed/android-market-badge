@@ -81,8 +81,11 @@ class AndroidAppBadge {
 		return $content;
 	}
 
-	function addBadge($content){
+	function addBadge($content) {
 		$design		= $this->config["badge"]["design"];
+
+		//Fallback to an existing design if the badge was removed
+		if (!file_exists("badges/{$design}/badge.php")) $design = "default";
 
 		$cacheAge	= $this->config["badge"]["cache"] * 60;
 		$cachePath	= "/".basename(dirname(__FILE__))."/cache/";
@@ -114,8 +117,7 @@ class AndroidAppBadge {
 				$image	= $func($session, $pname);
 
 				if ($image !== false) {
-					file_put_contents(WP_PLUGIN_DIR.$cacheFile, $image);
-					$success = true;
+					$success = @file_put_contents(WP_PLUGIN_DIR.$cacheFile, $image) !== false;
 				}
 			} else {
 				$success = true;
@@ -149,10 +151,10 @@ class AndroidAppBadge {
 	function settingsPage() {
 		//must check that the user has the required capability
 		if (!current_user_can('manage_options')) {
-		  wp_die( __('You do not have sufficient permissions to access this page.') );
+			wp_die( __('You do not have sufficient permissions to access this page.') );
 		}
 
-		if($_POST['google'] || $_POST['badge']){
+		if ($_POST['google'] || $_POST['badge']) {
 			update_option("google", $_POST["google"]);
 			update_option("badge", $_POST["badge"]);
 			update_option("qr", $_POST["qr"]);
@@ -164,14 +166,12 @@ class AndroidAppBadge {
 		?>
 		<div class="wrap">
 		<h2>Android Market Badges</h2>
-		<div class="error">
-		<?
-		$cachePath	= "/".basename(dirname(__FILE__))."/cache/";
+		<?php
+		$cachePath	= WP_PLUGIN_DIR."/".basename(dirname(__FILE__))."/cache/";
 		if (!is_writable($cachePath)) {
-			echo "The folder wp-content/plugins".$cachePath." must be writable";
+			echo "<div class=\"error\">The folder wp-content/plugins".$cachePath." must be writable</div>";
 		}
 		?>
-		</div>
 		<form method="post" action="">
 			<?php settings_fields('google_group'); ?>
 			<?php do_settings_sections('android_app'); ?>
@@ -217,7 +217,7 @@ class AndroidAppBadge {
 		$aDesigns = scandir($dir);
 		echo "<select id='badge_design' name='badge[design]'>";
 		foreach ($aDesigns as $design) {
-			if (substr($design,0,1) == "." || !is_dir($dir."/".$design)) continue;
+			if (substr($design, 0, 1) == "." || !is_dir($dir."/".$design)) continue;
 			echo "<option value='{$design}'";
 			if ($design == $options['design']) echo " selected";
 			echo ">{$design}</option>";
