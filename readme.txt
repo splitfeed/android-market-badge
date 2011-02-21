@@ -9,8 +9,8 @@ Adds a BBcode to display a generated image containing information from the Andro
 
 == Description ==
 
-**This plugin requires a Gmail account connected to a phone from which you can get your [market_checkin value]
-(http://code.google.com/p/android-market-api-php/wiki/HowToGetDeviceID#market_checkin). As far as I know this can only be done (reasonably) easy on rooted devices**
+**This plugin requires a Gmail account connected to a phone from which you can get your
+[market_checkin value](http://code.google.com/p/android-market-api-php/wiki/HowToGetDeviceID#market_checkin). As far as I know this can only be done (reasonably) easy on rooted devices**
 
 Adds a BBcode to display a generated image containing information from the Android Market. The BBcode format is [app=&lt;app pname&gt;]
 to output a badge of the selected application.
