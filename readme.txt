@@ -9,25 +9,42 @@ Adds a BBcode to display a generated image containing information from the Andro
 
 == Description ==
 
-TBD
+**This plugin requires a Gmail account connected to a phone from which you can get your [market_checkin value]
+(http://code.google.com/p/android-market-api-php/wiki/HowToGetDeviceID#market_checkin). As far as I know this can only be done (reasonably) easy on rooted devices**
+
+Adds a BBcode to display a generated image containing information from the Android Market. The BBcode format is [app=&lt;app pname&gt;]
+to output a badge of the selected application.
+There is also a simple support for QR-codes built in that can be used by either [qr=&lt;app pname&gt;] or [qr]&lt;app pname&gt;[/qr].
+
+## Examples ##
+[app=org.wordpress.android]
+
+[qr=org.wordpress.android]
+
+[qr]org.wordpress.android][/qr]
+
+* [Plugin web page](http://www.splitfeed.net/market-badges/)
 
 == Installation ==
 
-TBD
+1. Install normally (will expand on this if someone needs me to, but just do it)
+2. Go to "App Badges" settings under "Plugin menu"
+3. Enter your GMail username and password
+4. Enter your android deviceId
+5. Check the rest of the settings if you want to, but they should work fine out of the box
 
-== Upgrade Notice ==
-
-TBD
+To test the installation, simply type [app=org.wordpress.android] into a post.
 
 == Frequently Asked Questions ==
 
-= Why so empty? =
+= Problems with fetching the market data? =
 
-No one asked me anything yet :)
+There is a project site and news group at http://code.google.com/p/android-market-api-php/ that is the part that fetches information
+from the Android Market. The wiki there is somewhat bare bones, but check it out and mail the newsgroup if it doesn't fill your needs
 
 == Screenshots ==
 
-TBD
+1. The default badge for the WordPress client for Android
 
 == Changelog ==
 
