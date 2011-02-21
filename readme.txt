@@ -3,7 +3,7 @@ Contributors: splitfeed
 Tags: android, market, badge
 Requires at least: 3.0.0
 Tested up to: 3.0.5
-Stable tag: 0.51
+Stable tag: 0.5.2
 
 Adds a BBcode to display a generated image containing information from the Android Market.
 
