@@ -3,7 +3,7 @@ Contributors: splitfeed
 Tags: android, market, badge
 Requires at least: 3.0.0
 Tested up to: 3.0.5
-Stable tag: 0.5.2
+Stable tag: 0.6
 
 Adds a BBcode to display a generated image containing information from the Android Market.
 
@@ -46,7 +46,14 @@ from the Android Market. The wiki there is somewhat bare bones, but check it out
 
 1. The default badge for the WordPress client for Android
 
+2. QR code for the WordPress client for Android
+
 == Changelog ==
+
+= 0.6 =
+* Reset messed up versioning, sorry
+* Added another screenshot
+* Tweaked this document
 
 = 0.51 =
 * Renamed default badge to "default"
