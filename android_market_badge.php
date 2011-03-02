@@ -4,7 +4,7 @@ Plugin Name: Android Market Badges
 Plugin URI:
 Feed URI:
 Description:
-Version: 0.51
+Version: 0.7
 Author: Niklas Nilsson
 Author URI: http://www.splitfeed.net
 */
@@ -16,16 +16,15 @@ Author URI: http://www.splitfeed.net
 class AndroidAppBadge {
 	private $loggedIn = false;
 	private $config = array();
+	private $session = null;
 
 	public function __construct() {
 		$this->readConfig();
 
-		add_filter('the_content', array(&$this, 'addBadge'));
-		add_filter('comment_text', array(&$this, 'addBadge'));
-
+		add_shortcode('app', array(&$this, 'parseApp'));
+		
 		if ($this->config["qr"]["active"] == 1) {
-			add_filter('the_content', array(&$this, 'addQR'));
-			add_filter('comment_text', array(&$this, 'addQR'));
+			add_shortcode('qr', array(&$this, 'parseQR'));
 		}
 
 		add_filter('admin_init', array(&$this, 'adminInit'));
@@ -65,64 +64,23 @@ class AndroidAppBadge {
 		register_setting('android_app', 'qr'); //, 'android_app_validate');
 	}
 
-	function addQR($content) {
-		$qrSize	= 3;
-		$urlPre = "http://qrcode.kaywa.com/img.php?s={$qrSize}&d=";
-
-		$content = preg_replace_callback("/\[qr=([.\w]*)\]/", create_function(
-			'$matches',
-			'return "<img src=\"'.$urlPre.'".urlencode("market://details?id=".$matches[1])."\" title=\"".$matches[1]."\"/>";'), $content);
-		//http://chart.apis.google.com/chart?cht=qr&chs=250x250&chl=market://details?id=".$app->getExtendedInfo()->getPackageName()."&chld=L|1";
-
-		$content = preg_replace_callback("/\[qr\]([.\w]*)\[\/qr\]/", create_function(
-			'$matches',
-			'return "<img src=\"'.$urlPre.'".urlencode("market://details?id=".$matches[1])."\" title=\"".$matches[1]."\"/>";'), $content);
-
-		return $content;
-	}
-
-	function addBadge($content) {
-		$design		= $this->config["badge"]["design"];
-
-		//Fallback to an existing design if the badge was removed
-		if (!file_exists("badges/{$design}/badge.php")) $design = "default";
-
-		$cacheAge	= $this->config["badge"]["cache"] * 60;
-		$cachePath	= "/".basename(dirname(__FILE__))."/cache/";
-		preg_match_all("/\[app=([.\w]*)\]/", $content, $aMatches);
-
-
-		foreach ($aMatches[1] as $index => $pname) {
-			$cacheFile = $cachePath.$pname."_{$design}.png";
-
-			//If no cached file exists or it is older than $cacheAge, get a new one
-			$success = false;
-			if (!file_exists(WP_PLUGIN_DIR.$cacheFile) || time() - filemtime(WP_PLUGIN_DIR.$cacheFile) >= $cacheAge) {
-				if (!$this->loggedIn) {
-					include_once("market/protocolbuffers.inc.php");
-					include_once("market/market.proto.php");
-					include_once("market/MarketSession.php");
-
-					include_once("badges/{$design}/badge.php");
-
-
-					$session = new MarketSession();
-					$session->login($this->config["google"]["login"], $this->config["google"]["password"]);
-					$session->setAndroidId($this->config["google"]["device"]);
-
-					$this->loggedIn = true;
-				}
-
-				$func	= "android_app_badge_{$design}";
-				$image	= $func($session, $pname);
-
-				if ($image !== false) {
-					$success = @file_put_contents(WP_PLUGIN_DIR.$cacheFile, $image) !== false;
-				}
+	function parseQR($atts, $content = null, $code = "") {
+		if ($content)  {
+			if (isset($atts["size"]) && is_numeric($atts["size"])) {
+				$qrSize	= $atts["size"];
 			} else {
-				$success = true;
+				$qrSize	= 3;
 			}
-
+			$urlPre = "http://qrcode.kaywa.com/img.php?s={$qrSize}&d=";
+			return "<img src=\"".$urlPre.urlencode("market://details?id=".$content)."\" title=\"".$content."\"/>";
+		}
+	}
+	
+	function parseApp($atts, $content = null, $code = "") {
+		if ($content) {
+			$pname	= $content;
+			$badge	= $this->getBadge($pname);
+			
 			//Link to market if browsing from app
 			$android	= stripos($_SERVER["HTTP_USER_AGENT"], "Android") !== false;
 			if ($android) {
@@ -130,19 +88,57 @@ class AndroidAppBadge {
 			} else {
 				$link		= sprintf($this->config["badge"]["url"], urlencode($pname));
 			}
-			$aSearch[]	= $aMatches[0][$index];
-
-			if ($success === true) {
-				$aReplace[]	= '<a href="'.$link.'" target="_blank"><img src="'.WP_PLUGIN_URL.$cacheFile.'" alt="'.$pname.'"/></a>';
+			
+			if ($badge) {
+				return '<a href="'.$link.'" target="_blank"><img src="'.$badge.'" alt="'.$pname.'"/></a>';			
 			} else {
-				$aReplace[]	= '<a href="'.$link.'" target="_blank">Link to '.$pname.'</a>';
+				return '<a href="'.$link.'" target="_blank">Link to '.$pname.'</a>';
+			}
+		}
+	}
+
+	function getBadge($pname) {
+		$design		= $this->config["badge"]["design"];
+
+		//Fallback to an existing design if the badge was removed
+		if (!file_exists("badges/{$design}/badge.php")) $design = "default";
+
+		$cacheAge	= $this->config["badge"]["cache"] * 60;
+		$cachePath	= "/".basename(dirname(__FILE__))."/cache/";
+		$cacheFile = $cachePath.$pname."_{$design}.png";
+
+		//If no cached file exists or it is older than $cacheAge, get a new one
+		$success = false;
+		if (!file_exists(WP_PLUGIN_DIR.$cacheFile) || time() - filemtime(WP_PLUGIN_DIR.$cacheFile) >= $cacheAge) {
+			if (!$this->loggedIn) {
+	
+				include_once("market/protocolbuffers.inc.php");
+				include_once("market/market.proto.php");
+				include_once("market/MarketSession.php");
+				include_once("badges/{$design}/badge.php");
+
+				$this->session = new MarketSession();
+				$this->session->login($this->config["google"]["login"], $this->config["google"]["password"]);
+				$this->session->setAndroidId($this->config["google"]["device"]);
+
+				$this->loggedIn = true;
 			}
 
+			$func	= "android_app_badge_{$design}";
+			$image	= $func($this->session, $pname);
 
+			if ($image !== false) {
+				$success = @file_put_contents(WP_PLUGIN_DIR.$cacheFile, $image) !== false;
+			}
+		} else {
+			$success = true;
 		}
-		$content = str_replace($aSearch, $aReplace, $content);
 
-		return $content;
+		if ($success === true) {
+			return WP_PLUGIN_URL.$cacheFile;
+		} else {
+			return false;
+		}
 	}
 
 	/**

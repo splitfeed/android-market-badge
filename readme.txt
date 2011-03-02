@@ -3,7 +3,7 @@ Contributors: splitfeed
 Tags: android, market, badge
 Requires at least: 3.0.0
 Tested up to: 3.1
-Stable tag: 0.6
+Stable tag: 0.7
 
 Adds a BBcode to display a generated image containing information from the Android Market.
 
@@ -12,16 +12,16 @@ Adds a BBcode to display a generated image containing information from the Andro
 **This plugin requires a Gmail account connected to a phone from which you can get your
 [market_checkin value](http://code.google.com/p/android-market-api-php/wiki/HowToGetDeviceID#market_checkin). As far as I know this can only be done (reasonably) easy on rooted devices**
 
-Adds a BBcode to display a generated image containing information from the Android Market. The BBcode format is [app=&lt;app pname&gt;]
+Adds a shortcode to display a generated image containing information from the Android Market. The shortcode format is [app]&lt;app pname&gt;[/app]
 to output a badge of the selected application.
-There is also a simple support for QR-codes built in that can be used by either [qr=&lt;app pname&gt;] or [qr]&lt;app pname&gt;[/qr].
+There is also a simple support for QR-codes built in that can be used by [qr]&lt;app pname&gt;[/qr].
 
 ## Examples ##
-[app=org.wordpress.android]
-
-[qr=org.wordpress.android]
+[app]org.wordpress.android[/app]
 
 [qr]org.wordpress.android][/qr]
+
+[qr size=10]org.wordpress.android][/qr]
 
 * [Plugin web page](http://www.splitfeed.net/market-badges/)
 
@@ -49,6 +49,10 @@ from the Android Market. The wiki there is somewhat bare bones, but check it out
 2. QR code for the WordPress client for Android
 
 == Changelog ==
+
+= 0.7 =
+* Discovered shortcode stuff in WP and rewrote some code to use that instead. **This renders the old shortcode format
+invalid and will leave them as they are. I will try to work this out before releasing 0.7.**
 
 = 0.6 =
 * Reset messed up versioning, sorry
