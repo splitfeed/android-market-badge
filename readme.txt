@@ -53,6 +53,7 @@ from the Android Market. The wiki there is somewhat bare bones, but check it out
 = 0.7 =
 * Discovered shortcode stuff in WP and rewrote some code to use that instead. **This renders the old shortcode format
 invalid and will leave them as they are. I will try to work this out before releasing 0.7.**
+* Also added "size" attribute to qr, making size changeable
 
 = 0.6 =
 * Reset messed up versioning, sorry
