@@ -21,16 +21,24 @@ class AndroidAppBadge {
 	public function __construct() {
 		$this->readConfig();
 
+		add_filter('the_content', array(&$this, 'compatFallback'));
+		add_filter('comment_text', array(&$this, 'compatFallback'));
+
 		add_shortcode('app', array(&$this, 'parseApp'));
 		
 		if ($this->config["qr"]["active"] == 1) {
 			add_shortcode('qr', array(&$this, 'parseQR'));
 		}
 
+
 		add_filter('admin_init', array(&$this, 'adminInit'));
 		add_filter('admin_menu', array(&$this, 'adminMenu'));
 	}
 
+	
+	/**
+	 * Loads the config with default values into a property 
+	 */
 	private function readConfig() {
 		$this->config["qr"]		= get_option('qr', array("active" => 0));
 		$this->config["badge"]	= get_option('badge', array(
@@ -40,6 +48,10 @@ class AndroidAppBadge {
 		$this->config["google"]	= get_option('google', array());
 	}
 
+	/**
+	 * Add "App Badges" link in admin menu
+	 * 
+	 */
 	function adminMenu() {
 		add_submenu_page('plugins.php', 'Android Market', 'App Badges', 'manage_options', 'android_app_options', array(&$this, 'settingsPage'));
 	}
@@ -139,6 +151,18 @@ class AndroidAppBadge {
 		} else {
 			return false;
 		}
+	}
+	
+	/**
+	 * Handle old shortcode format
+	 * 
+	 * @param string $content Post or comment text
+	 */
+	function compatFallback($content) {
+		$content = preg_replace("/\[qr=([.\w]*)\]/", "[qr]$1[/qr]", $content);
+		$content = preg_replace("/\[app=([.\w]*)\]/", "[app]$1[/app]", $content);
+		
+		return $content;
 	}
 
 	/**
