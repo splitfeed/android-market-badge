@@ -53,22 +53,22 @@ class AndroidAppBadge {
 	 * 
 	 */
 	function adminMenu() {
-		add_submenu_page('plugins.php', 'Android Market', 'App Badges', 'manage_options', 'android_app_options', array(&$this, 'settingsPage'));
+		add_submenu_page('plugins.php', __('Android Market'), __('App Badges'), 'manage_options', 'android_app_options', array(&$this, 'settingsPage'));
 	}
 
 	function adminInit() {
-		add_settings_section('market', 'Android Market', array(&$this, 'sectionCallback'), 'android_app');
-		add_settings_field('google_login', 'Google Login', array(&$this, 'optionCallbackLogin'), 'android_app', 'market');
-		add_settings_field('google_password', 'Google Password', array(&$this, 'optionCallbackPassword'), 'android_app', 'market');
-		add_settings_field('google_device', 'Android Device ID', array(&$this, 'optionCallbackDevice'), 'android_app', 'market');
+		add_settings_section('market', __('Android Market'), array(&$this, 'sectionCallback'), 'android_app');
+		add_settings_field('google_login', __('Google Login'), array(&$this, 'optionCallbackLogin'), 'android_app', 'market');
+		add_settings_field('google_password', __('Google Password'), array(&$this, 'optionCallbackPassword'), 'android_app', 'market');
+		add_settings_field('google_device', __('Android Device ID'), array(&$this, 'optionCallbackDevice'), 'android_app', 'market');
 
-		add_settings_section('badge', 'Badge settings', array(&$this, 'sectionCallback'), 'android_app');
-		add_settings_field('badge_cache', 'Cache time', array(&$this, 'optionCallbackCache'), 'android_app', 'badge');
-		add_settings_field('badge_design', 'Badge design', array(&$this, 'optionCallbackDesign'), 'android_app', 'badge');
-		add_settings_field('badge_url', 'Badge link URL', array(&$this, 'optionCallbackBadgeLink'), 'android_app', 'badge');
+		add_settings_section('badge', __('Badge settings'), array(&$this, 'sectionCallback'), 'android_app');
+		add_settings_field('badge_cache', __('Cache time'), array(&$this, 'optionCallbackCache'), 'android_app', 'badge');
+		add_settings_field('badge_design', __('Badge design'), array(&$this, 'optionCallbackDesign'), 'android_app', 'badge');
+		add_settings_field('badge_url', __('Badge link URL'), array(&$this, 'optionCallbackBadgeLink'), 'android_app', 'badge');
 
-		add_settings_section('qr', 'QR-BBCodes', array(&$this, 'sectionCallback'), 'android_app');
-		add_settings_field('qr_active', 'Enable QR-BBCode', array(&$this, 'optionCallbackQR'), 'android_app', 'qr');
+		add_settings_section('qr', __('QR-BBCodes'), array(&$this, 'sectionCallback'), 'android_app');
+		add_settings_field('qr_active', __('Enable QR-BBCode'), array(&$this, 'optionCallbackQR'), 'android_app', 'qr');
 
 
 		register_setting('android_app', 'google'); //, 'android_app_validate');
@@ -123,7 +123,6 @@ class AndroidAppBadge {
 		$success = false;
 		if (!file_exists(WP_PLUGIN_DIR.$cacheFile) || time() - filemtime(WP_PLUGIN_DIR.$cacheFile) >= $cacheAge) {
 			if (!$this->loggedIn) {
-	
 				include_once("market/protocolbuffers.inc.php");
 				include_once("market/market.proto.php");
 				include_once("market/MarketSession.php");
@@ -171,7 +170,7 @@ class AndroidAppBadge {
 	function settingsPage() {
 		//must check that the user has the required capability
 		if (!current_user_can('manage_options')) {
-			wp_die( __('You do not have sufficient permissions to access this page.') );
+			wp_die( __('You do not have sufficient permissions to access this page.', 'android-market-badge') );
 		}
 
 		if ($_POST['google'] || $_POST['badge']) {
@@ -180,7 +179,6 @@ class AndroidAppBadge {
 			update_option("qr", $_POST["qr"]);
 
 			$this->readConfig();
-			echo '<div class="updated"><p>Success! Your changes were sucessfully saved!</p></div>';
 		}
 
 		?>
@@ -189,13 +187,13 @@ class AndroidAppBadge {
 		<?php
 		$cachePath	= WP_PLUGIN_DIR."/".basename(dirname(__FILE__))."/cache/";
 		if (!is_writable($cachePath)) {
-			echo "<div class=\"error\">The folder wp-content/plugins".$cachePath." must be writable</div>";
+			echo "<div class=\"error\">".printf(__("The folder %s must be writable")," wp-content/plugins".$cachePath)."</div>";
 		}
 		?>
 		<form method="post" action="">
 			<?php settings_fields('google_group'); ?>
 			<?php do_settings_sections('android_app'); ?>
-			<p class="submit"><input type="submit" class="button-primary" value="<?php _e('Save Changes') ?>"  /></p>
+			<p class="submit"><input type="submit" class="button-primary" value="<?php _e('Save Changes', 'android-market-badge') ?>"  /></p>
 		</form>
 		</div>
 		<?php
@@ -230,11 +228,10 @@ class AndroidAppBadge {
 	}
 
 	function optionCallbackDesign() {
-		$options = $this->config["badge"];
+		$options	= $this->config["badge"];
 
-		$dir = WP_PLUGIN_DIR.'/'.basename(dirname(__FILE__))."/badges/";
-
-		$aDesigns = scandir($dir);
+		$dir		= WP_PLUGIN_DIR.'/'.basename(dirname(__FILE__))."/badges/";
+		$aDesigns	= scandir($dir);
 		echo "<select id='badge_design' name='badge[design]'>";
 		foreach ($aDesigns as $design) {
 			if (substr($design, 0, 1) == "." || !is_dir($dir."/".$design)) continue;
