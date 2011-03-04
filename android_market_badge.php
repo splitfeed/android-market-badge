@@ -4,7 +4,7 @@ Plugin Name: Android Market Badges
 Plugin URI:
 Feed URI:
 Description:
-Version: 0.7
+Version: 0.7.1
 Author: Niklas Nilsson
 Author URI: http://www.splitfeed.net
 */
@@ -25,7 +25,7 @@ class AndroidAppBadge {
 		add_filter('comment_text', array(&$this, 'compatFallback'));
 
 		add_shortcode('app', array(&$this, 'parseApp'));
-		
+
 		if ($this->config["qr"]["active"] == 1) {
 			add_shortcode('qr', array(&$this, 'parseQR'));
 		}
@@ -35,9 +35,9 @@ class AndroidAppBadge {
 		add_filter('admin_menu', array(&$this, 'adminMenu'));
 	}
 
-	
+
 	/**
-	 * Loads the config with default values into a property 
+	 * Loads the config with default values into a property
 	 */
 	private function readConfig() {
 		$this->config["qr"]		= get_option('qr', array("active" => 0));
@@ -50,7 +50,7 @@ class AndroidAppBadge {
 
 	/**
 	 * Add "App Badges" link in admin menu
-	 * 
+	 *
 	 */
 	function adminMenu() {
 		add_submenu_page('plugins.php', __('Android Market'), __('App Badges'), 'manage_options', 'android_app_options', array(&$this, 'settingsPage'));
@@ -87,12 +87,12 @@ class AndroidAppBadge {
 			return "<img src=\"".$urlPre.urlencode("market://details?id=".$content)."\" title=\"".$content."\"/>";
 		}
 	}
-	
+
 	function parseApp($atts, $content = null, $code = "") {
 		if ($content) {
 			$pname	= $content;
 			$badge	= $this->getBadge($pname);
-			
+
 			//Link to market if browsing from app
 			$android	= stripos($_SERVER["HTTP_USER_AGENT"], "Android") !== false;
 			if ($android) {
@@ -100,9 +100,9 @@ class AndroidAppBadge {
 			} else {
 				$link		= sprintf($this->config["badge"]["url"], urlencode($pname));
 			}
-			
+
 			if ($badge) {
-				return '<a href="'.$link.'" target="_blank"><img src="'.$badge.'" alt="'.$pname.'"/></a>';			
+				return '<a href="'.$link.'" target="_blank"><img src="'.$badge.'" alt="'.$pname.'"/></a>';
 			} else {
 				return '<a href="'.$link.'" target="_blank">Link to '.$pname.'</a>';
 			}
@@ -151,16 +151,16 @@ class AndroidAppBadge {
 			return false;
 		}
 	}
-	
+
 	/**
 	 * Handle old shortcode format
-	 * 
+	 *
 	 * @param string $content Post or comment text
 	 */
 	function compatFallback($content) {
 		$content = preg_replace("/\[qr=([.\w]*)\]/", "[qr]$1[/qr]", $content);
 		$content = preg_replace("/\[app=([.\w]*)\]/", "[app]$1[/app]", $content);
-		
+
 		return $content;
 	}
 
