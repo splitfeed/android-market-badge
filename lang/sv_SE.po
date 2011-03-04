@@ -1,0 +1,81 @@
+# Copyright (C) 2010 
+# This file is distributed under the same license as the  package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Android Market Badge 0.7.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-03-04 13:52+0100\n"
+"PO-Revision-Date: 2011-03-04 13:52+0100\n"
+"Last-Translator: Niklas Nilsson <splitfeed@gmail.com>\n"
+"Language-Team: Niklas Nilsson <splitfeed@gmail.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Swedish\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-Basepath: C:\\Users\\Nicke\\Zend\\workspaces\\DefaultWorkspace7\\AMB\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: android_market_badge.php:58
+#: android_market_badge.php:62
+msgid "Android Market"
+msgstr "Android Market"
+
+#: android_market_badge.php:58
+msgid "App Badges"
+msgstr "App-emblem"
+
+#: android_market_badge.php:63
+msgid "Google Login"
+msgstr "Google-login"
+
+#: android_market_badge.php:64
+msgid "Google Password"
+msgstr "Google-lösenord"
+
+#: android_market_badge.php:65
+msgid "Android Device ID"
+msgstr "Android enhets-ID"
+
+#: android_market_badge.php:67
+msgid "Badge settings"
+msgstr "Embleminställningar"
+
+#: android_market_badge.php:68
+msgid "Cache time"
+msgstr "Cachetid"
+
+#: android_market_badge.php:69
+msgid "Badge design"
+msgstr "Emblemdesign"
+
+#: android_market_badge.php:70
+msgid "Badge link URL"
+msgstr "Emblemlänk"
+
+#: android_market_badge.php:72
+msgid "QR-BBCodes"
+msgstr "QR-kortkoder"
+
+#: android_market_badge.php:73
+msgid "Enable QR-BBCode"
+msgstr "Aktiver QR-kortkoder"
+
+#: android_market_badge.php:109
+msgid "Link to"
+msgstr "Länk till"
+
+#: android_market_badge.php:175
+msgid "You do not have sufficient permissions to access this page."
+msgstr "Du saknar tillräckliga rättigheter för att se denna sidan."
+
+#: android_market_badge.php:192
+#, php-format
+msgid "The folder %s must be writable"
+msgstr "Mappen %s får inte vara skrivskyddad"
+
+#: android_market_badge.php:198
+msgid "Save Changes"
+msgstr "Spara ändringar"
+

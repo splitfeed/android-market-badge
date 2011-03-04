@@ -19,6 +19,8 @@ class AndroidAppBadge {
 	private $session = null;
 
 	public function __construct() {
+		load_plugin_textdomain('android-market-badge', false, 'android-market-badge/lang');
+
 		$this->readConfig();
 
 		add_filter('the_content', array(&$this, 'compatFallback'));
@@ -104,7 +106,7 @@ class AndroidAppBadge {
 			if ($badge) {
 				return '<a href="'.$link.'" target="_blank"><img src="'.$badge.'" alt="'.$pname.'"/></a>';
 			} else {
-				return '<a href="'.$link.'" target="_blank">Link to '.$pname.'</a>';
+				return '<a href="'.$link.'" target="_blank">'.__('Link to').' '.$pname.'</a>';
 			}
 		}
 	}
