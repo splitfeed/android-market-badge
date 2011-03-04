@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Android Market Badges
-Plugin URI:
+Plugin URI: http://www.splitfeed.net/market-badges/
 Feed URI:
 Description:
 Version: 0.7.1
