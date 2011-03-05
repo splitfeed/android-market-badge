@@ -4,7 +4,7 @@ Plugin Name: Android Market Badges
 Plugin URI: http://www.splitfeed.net/market-badges/
 Feed URI:
 Description:
-Version: 0.7.1
+Version: 0.7.2
 Author: Niklas Nilsson
 Author URI: http://www.splitfeed.net
 */
@@ -18,9 +18,8 @@ class AndroidAppBadge {
 	private $config = array();
 	private $session = null;
 
-	public function __construct() {
+	public function init() {
 		load_plugin_textdomain('android-market-badge', false, 'android-market-badge/lang');
-
 		$this->readConfig();
 
 		add_filter('the_content', array(&$this, 'compatFallback'));
@@ -55,22 +54,22 @@ class AndroidAppBadge {
 	 *
 	 */
 	function adminMenu() {
-		add_submenu_page('plugins.php', __('Android Market'), __('App Badges'), 'manage_options', 'android_app_options', array(&$this, 'settingsPage'));
+		add_submenu_page('plugins.php', __('Android Market', 'android-market-badge'), __('App Badges', 'android-market-badge'), 'manage_options', 'android_app_options', array(&$this, 'settingsPage'));
 	}
 
 	function adminInit() {
-		add_settings_section('market', __('Android Market'), array(&$this, 'sectionCallback'), 'android_app');
-		add_settings_field('google_login', __('Google Login'), array(&$this, 'optionCallbackLogin'), 'android_app', 'market');
-		add_settings_field('google_password', __('Google Password'), array(&$this, 'optionCallbackPassword'), 'android_app', 'market');
-		add_settings_field('google_device', __('Android Device ID'), array(&$this, 'optionCallbackDevice'), 'android_app', 'market');
+		add_settings_section('market', __('Android Market', 'android-market-badge'), array(&$this, 'sectionCallback'), 'android_app');
+		add_settings_field('google_login', __('Google Login', 'android-market-badge'), array(&$this, 'optionCallbackLogin'), 'android_app', 'market');
+		add_settings_field('google_password', __('Google Password', 'android-market-badge'), array(&$this, 'optionCallbackPassword'), 'android_app', 'market');
+		add_settings_field('google_device', __('Android Device ID', 'android-market-badge'), array(&$this, 'optionCallbackDevice'), 'android_app', 'market');
 
-		add_settings_section('badge', __('Badge settings'), array(&$this, 'sectionCallback'), 'android_app');
-		add_settings_field('badge_cache', __('Cache time'), array(&$this, 'optionCallbackCache'), 'android_app', 'badge');
-		add_settings_field('badge_design', __('Badge design'), array(&$this, 'optionCallbackDesign'), 'android_app', 'badge');
-		add_settings_field('badge_url', __('Badge link URL'), array(&$this, 'optionCallbackBadgeLink'), 'android_app', 'badge');
+		add_settings_section('badge', __('Badge settings', 'android-market-badge'), array(&$this, 'sectionCallback'), 'android_app');
+		add_settings_field('badge_cache', __('Cache time', 'android-market-badge'), array(&$this, 'optionCallbackCache'), 'android_app', 'badge');
+		add_settings_field('badge_design', __('Badge design', 'android-market-badge'), array(&$this, 'optionCallbackDesign'), 'android_app', 'badge');
+		add_settings_field('badge_url', __('Badge link URL', 'android-market-badge'), array(&$this, 'optionCallbackBadgeLink'), 'android_app', 'badge');
 
-		add_settings_section('qr', __('QR-BBCodes'), array(&$this, 'sectionCallback'), 'android_app');
-		add_settings_field('qr_active', __('Enable QR-BBCode'), array(&$this, 'optionCallbackQR'), 'android_app', 'qr');
+		add_settings_section('qr', __('QR-BBCodes', 'android-market-badge'), array(&$this, 'sectionCallback'), 'android_app');
+		add_settings_field('qr_active', __('Enable QR-BBCode', 'android-market-badge'), array(&$this, 'optionCallbackQR'), 'android_app', 'qr');
 
 
 		register_setting('android_app', 'google'); //, 'android_app_validate');
@@ -106,7 +105,7 @@ class AndroidAppBadge {
 			if ($badge) {
 				return '<a href="'.$link.'" target="_blank"><img src="'.$badge.'" alt="'.$pname.'"/></a>';
 			} else {
-				return '<a href="'.$link.'" target="_blank">'.__('Link to').' '.$pname.'</a>';
+				return '<a href="'.$link.'" target="_blank">'.__('Link to', 'android-market-badge').' '.$pname.'</a>';
 			}
 		}
 	}
@@ -189,7 +188,7 @@ class AndroidAppBadge {
 		<?php
 		$cachePath	= WP_PLUGIN_DIR."/".basename(dirname(__FILE__))."/cache/";
 		if (!is_writable($cachePath)) {
-			echo "<div class=\"error\">".printf(__("The folder %s must be writable")," wp-content/plugins".$cachePath)."</div>";
+			echo "<div class=\"error\">".printf(__("The folder %s must be writable", 'android-market-badge')," wp-content/plugins".$cachePath)."</div>";
 		}
 		?>
 		<form method="post" action="">
@@ -217,12 +216,12 @@ class AndroidAppBadge {
 
 	function optionCallbackDevice() {
 		$options = $this->config["google"];
-		echo "<input id='google_device' name='google[device]' size='40' type='text' value='{$options['device']}' /> <a href=\"http://code.google.com/p/android-market-api-php/wiki/HowToGetDeviceID\" target=\"_blank\">What is this?</a>";
+		echo "<input id='google_device' name='google[device]' size='40' type='text' value='{$options['device']}' /> <a href=\"http://code.google.com/p/android-market-api-php/wiki/HowToGetDeviceID\" target=\"_blank\">".__('What is this?', 'android-market-badge')."</a>";
 	}
 
 	function optionCallbackCache() {
 		$options = $this->config["badge"];
-		echo "<input id='badge_cache' name='badge[cache]' size='3' type='text' value='{$options['cache']}' /> minutes";
+		echo "<input id='badge_cache' name='badge[cache]' size='3' type='text' value='{$options['cache']}' /> ".__('minutes', 'android-market-badge');
 	}
 
 	function optionCallbackQR() {
@@ -252,3 +251,4 @@ class AndroidAppBadge {
 }
 
 $androidAppBadge = new AndroidAppBadge();
+add_action('init', array(&$androidAppBadge, 'init'));

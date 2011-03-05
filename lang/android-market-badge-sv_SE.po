@@ -1,0 +1,106 @@
+# Copyright (C) 2010 
+# This file is distributed under the same license as the  package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Android Market Badge 0.7.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-03-05 19:13+0100\n"
+"PO-Revision-Date: 2011-03-05 19:15+0100\n"
+"Last-Translator: Niklas Nilsson <splitfeed@gmail.com>\n"
+"Language-Team: Niklas Nilsson <splitfeed@gmail.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Swedish\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-Basepath: C:\\Users\\Nicke\\Zend\\workspaces\\DefaultWorkspace7\\AMB\n"
+"X-Poedit-SearchPath-0: C:\\Users\\Nicke\\workspace\\Market Badges\n"
+
+#: C:\Users\Nicke\workspace\Market
+#: Badges/android_market_badge.php:57
+#: Badges/android_market_badge.php:61
+msgid "Android Market"
+msgstr "Android Market"
+
+#: C:\Users\Nicke\workspace\Market
+#: Badges/android_market_badge.php:57
+msgid "App Badges"
+msgstr "App-emblem"
+
+#: C:\Users\Nicke\workspace\Market
+#: Badges/android_market_badge.php:62
+msgid "Google Login"
+msgstr "Google-login"
+
+#: C:\Users\Nicke\workspace\Market
+#: Badges/android_market_badge.php:63
+msgid "Google Password"
+msgstr "Google-lösenord"
+
+#: C:\Users\Nicke\workspace\Market
+#: Badges/android_market_badge.php:64
+msgid "Android Device ID"
+msgstr "Android-enhetens ID"
+
+#: C:\Users\Nicke\workspace\Market
+#: Badges/android_market_badge.php:66
+msgid "Badge settings"
+msgstr "Embleminställningar"
+
+#: C:\Users\Nicke\workspace\Market
+#: Badges/android_market_badge.php:67
+msgid "Cache time"
+msgstr "Cachetid"
+
+#: C:\Users\Nicke\workspace\Market
+#: Badges/android_market_badge.php:68
+msgid "Badge design"
+msgstr "Emblemdesign"
+
+#: C:\Users\Nicke\workspace\Market
+#: Badges/android_market_badge.php:69
+msgid "Badge link URL"
+msgstr "Emblemlänk"
+
+#: C:\Users\Nicke\workspace\Market
+#: Badges/android_market_badge.php:71
+msgid "QR-BBCodes"
+msgstr "QR-kortkoder"
+
+#: C:\Users\Nicke\workspace\Market
+#: Badges/android_market_badge.php:72
+msgid "Enable QR-BBCode"
+msgstr "Aktivera QR-kortkoder"
+
+#: C:\Users\Nicke\workspace\Market
+#: Badges/android_market_badge.php:108
+msgid "Link to"
+msgstr "Länk till"
+
+#: C:\Users\Nicke\workspace\Market
+#: Badges/android_market_badge.php:174
+msgid "You do not have sufficient permissions to access this page."
+msgstr "Du saknar tillräckliga rättigheter för att se denna sidan."
+
+#: C:\Users\Nicke\workspace\Market
+#: Badges/android_market_badge.php:191
+#, php-format
+msgid "The folder %s must be writable"
+msgstr "Mappen %s får inte vara skrivskyddad"
+
+#: C:\Users\Nicke\workspace\Market
+#: Badges/android_market_badge.php:197
+msgid "Save Changes"
+msgstr "Spara ändringar"
+
+#: C:\Users\Nicke\workspace\Market
+#: Badges/android_market_badge.php:219
+msgid "What is this?"
+msgstr "Vad är detta?"
+
+#: C:\Users\Nicke\workspace\Market
+#: Badges/android_market_badge.php:224
+msgid "minutes"
+msgstr "minuter"
+
