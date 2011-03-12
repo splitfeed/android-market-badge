@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="android-market-badge" default="prepare">
+	<!-- ============================================  -->
+	<!-- Target: prepare							   -->
+	<!-- ============================================  -->
+	<target name="prepare">
+		<input propertyname="release_option" defaultValue="BugFix" validargs="Major,Minor,BugFix" promptChar=":">
+		Please choose a build type
+		</input>
+		<version releasetype="${release_option}" file="version.txt" property="version.number"/>
+		
+		<!-- Check readme for changelog -->
+		
+		<!-- Update version number in readme -->
+		<reflexive>
+		  <fileset dir=".">
+		    <include pattern="readme.txt"/>
+		  </fileset>
+			<filterchain>
+			  <replaceregexp>
+				<regexp pattern="(Stable tag:) (\d\.\d\.\d)" replace="\1 ${version.number} "/>
+			  </replaceregexp>
+			</filterchain>		
+		</reflexive>
+	
+		<!-- Update version number in main plugin file -->
+		<reflexive>
+		  <fileset dir=".">
+		    <include pattern="${phing.project.name}.php"/>
+		  </fileset>
+			<filterchain>
+			  <replaceregexp>
+				<regexp pattern="(Version: ) (\d\.\d\.\d)" replace="\1 ${version.number}"/>
+			  </replaceregexp>
+			</filterchain>		
+		</reflexive>
+	</target>
+</project>
