@@ -189,7 +189,7 @@ class AndroidAppBadge {
 		<?php
 		$cachePath	= WP_PLUGIN_DIR."/".basename(dirname(__FILE__))."/cache/";
 		if (!is_writable($cachePath)) {
-			echo "<div class=\"error\">".printf(__("The folder %s must be writable", 'android-market-badge')," wp-content/plugins".$cachePath)."</div>";
+			echo "<div class=\"error\">".sprintf(__("The folder %s must be writable", 'android-market-badge')," ".$cachePath)."</div>";
 		}
 		?>
 		<form method="post" action="">
