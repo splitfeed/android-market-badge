@@ -111,6 +111,7 @@ class AndroidAppBadge {
 	}
 
 	function getBadge($pname) {
+		$pname		= strtolower($pname);
 		$design		= $this->config["badge"]["design"];
 
 		//Fallback to an existing design if the badge was removed
