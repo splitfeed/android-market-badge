@@ -3,7 +3,7 @@ Contributors: splitfeed
 Tags: android, market, badge
 Requires at least: 3.0.0
 Tested up to: 3.1
-Stable tag: 0.7.3
+Stable tag: 0.7.4
 
 Adds a BBcode to display a generated image containing information from the Android Market.
 
@@ -49,6 +49,9 @@ from the Android Market. The wiki there is somewhat bare bones, but check it out
 2. QR code for the WordPress client for Android
 
 == Changelog ==
+
+= 0.7.4 =
+* Reverted lowercase change since some apps seem to be case sensitive after all
 
 = 0.7.3 =
 * All pnames are now sent as lowercase to make searches easier. Market seems to be case sensitive, but since all pnames are lowercase 

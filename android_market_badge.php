@@ -4,7 +4,7 @@ Plugin Name: Android Market Badges
 Plugin URI: http://www.splitfeed.net/market-badges/
 Feed URI:
 Description:
-Version: 0.7.3
+Version: 0.7.4
 Author: Niklas Nilsson
 Author URI: http://www.splitfeed.net
 */
@@ -111,7 +111,7 @@ class AndroidAppBadge {
 	}
 
 	function getBadge($pname) {
-		$pname		= strtolower($pname);
+		#$pname		= strtolower($pname);
 		$design		= $this->config["badge"]["design"];
 
 		//Fallback to an existing design if the badge was removed
